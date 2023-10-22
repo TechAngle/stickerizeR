@@ -5,7 +5,7 @@ from ttkthemes import ThemedTk
 import config
 import image
 import video
-import os
+import os, sys
 
 class Utils:
     def __init__(self, file: str):
@@ -55,7 +55,7 @@ class Utils:
 class TKFunctions:
     @staticmethod
     def choose_file():
-        file_types = [("JPEG", "*.jpg"), ("Video files", "*.mp4"), ("PNG", "*.png")]
+        file_types = [("Images", "*.jpg *.png"), ("Videos", "*.mp4 *.avi *.mkv")]
         filename = filedialog.askopenfilename(filetypes=file_types)
 
         return filename
@@ -109,20 +109,15 @@ class GUI:
         if self.file.endswith('.png') or self.file.endswith('.jpg'):
             self.textbox.insert(INSERT, "Using Image processing...\n")
             result = Utils(self.file).stickerize_photo()
-            self.textbox.insert(INSERT, f'File successfully saved to {result}\n')
+            self.textbox.insert(INSERT, f'Output: {result}\n')
         else:
             self.textbox.insert(INSERT, 'Using Video processing...\n')
             result = Utils(self.file).stickerize_video()
-            self.textbox.insert(INSERT, f'Video Sticker successfully saved to {result}\n')
+            self.textbox.insert(INSERT, f'Output: {result}\n')
 
     def run(self):
         self.ws.mainloop()
+        sys.exit(0)
 
 if __name__ == "__main__":
-    gui = GUI()
-    gui.run()
-
-
-if __name__ == "__main__":
-    gui = GUI()
-    gui.run()
+    GUI().run()

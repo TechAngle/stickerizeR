@@ -4,7 +4,7 @@ Stickerizer is a simple Python application for creating Telegram stickers images
 
 ## Features
 
-- Create sticker-like images or videos for Telegram.
+- Create stickers for Telegram with images or videos.
 - Supports various input formats (JPEG, PNG, MP4, AVI, etc.).
 - Resizes and processes input files.
 - Easy-to-use graphical user interface (GUI).
@@ -22,15 +22,15 @@ pip install -r requirements.txt
 
 ## How to Use
 
-1. Launch the Stickerizer application.
+<img src="./src/vid/example.gif" height="250px">
 
-2. Click the "Choose a file to stickerize" button to select an input file (JPEG, PNG, or MP4).
+1. Launch the Stickerizer.
 
-3. Click the "Start Stickerizing" button to begin the stickerization process. The output will be displayed in the "Output Log" section.
+2. Click the "Choose a file to stickerize" button to select an input file (JPEG, PNG, MP4, AVI, etc).
+
+3. Click the "Start Stickerizing" button to begin the "stickerization" process. The output will be displayed in the "Output Log" section.
 
 4. The processed image or video will be saved in the "output" folder in the application directory.
-
-5. You can create sticker-like images or videos from your input files.
 
 ## Contributing
 
@@ -38,8 +38,8 @@ If you want to contribute to this project or report issues, please visit the [Gi
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./) file for details.
+This project is licensed under the GPL-2.0 License. See the [LICENSE](./LICENSE) file for details.
 
-------
-Enjoy creating sticker-like images and videos with Stickerizer!
+##### Some additional words
 
+> If you would like to change theme of app, so go to [config.py](./config.py) and change `ttktheme` to one from available
