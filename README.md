@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ## How to Use
 
-<img src="./src/vid/example.gif" height="250px">
+<img src="./src/example.gif" height="250px">
 
 1. Launch the Stickerizer.
 
