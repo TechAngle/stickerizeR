@@ -2,10 +2,13 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.ttk import *
 from ttkthemes import ThemedTk
+from flask import Flask, render_template, request
 import config
 import image
 import video
 import os, sys
+
+app = Flask(__name__)
 
 class Utils:
     def __init__(self, file: str):
@@ -60,7 +63,7 @@ class TKFunctions:
 
         return filename
 
-class GUI:
+"""class GUI:
     def __init__(self):
         self.version = config.version
         self.ws = ThemedTk(theme=config.ttktheme)
@@ -97,27 +100,52 @@ class GUI:
             self.stick_file.config(text=message)
             self.textbox.insert(INSERT, message + '\n')
 
-    def run_stickerizing(self):
-        if self.file is None:
-            self.textbox.delete(1.0, 'end')
-            self.textbox.insert(INSERT, "File wasn't selected")
-            return
 
-        self.textbox.delete(1.0, 'end')
-        self.textbox.insert(INSERT, 'Starting stickerizing image...\n')
-
-        if self.file.endswith('.png') or self.file.endswith('.jpg'):
-            self.textbox.insert(INSERT, "Using Image processing...\n")
-            result = Utils(self.file).stickerize_photo()
-            self.textbox.insert(INSERT, f'Output: {result}\n')
-        else:
-            self.textbox.insert(INSERT, 'Using Video processing...\n')
-            result = Utils(self.file).stickerize_video()
-            self.textbox.insert(INSERT, f'Output: {result}\n')
 
     def run(self):
         self.ws.mainloop()
         sys.exit(0)
+"""
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/choose_file', methods=['POST'])
+def choose_file():
+    root = Tk()
+    root.withdraw()  # Скрыть окно tkinter
+    file_path = filedialog.askopenfilename()
+    root.destroy()  # Закрыть окно tkinter после выбора файла
+    return file_path
+
+def run_stickerizing(file):
+    if file is None:
+        return "File wasn't selected"
+
+    result = ""
+    if file.endswith('.png') or file.endswith('.jpg'):
+        result = f'\nUsing Image processing...\n'
+        r = Utils(file).stickerize_photo()
+        result += r
+    else:
+        result = '\nUsing Video processing...\n'
+        r = Utils(file).stickerize_video()
+        result += r
+
+    return result
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    file_path = request.form.get('file_path')
+    processing_result = run_stickerizing(file_path)
+
+    # Откройте файл лога для записи (дописывания) и добавьте запись
+    with open('log.txt', 'a') as log_file:
+        log_file.write(f'Selected file: {file_path}\n{processing_result}\n')
+
+    # Верните результат обработки клиенту
+    return f'Selected file: {file_path}\n{processing_result}'
 
 if __name__ == "__main__":
-    GUI().run()
+    app.run()

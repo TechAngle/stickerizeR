@@ -2,3 +2,4 @@ Pillow==9.4.0
 moviepy==1.0.3
 opencv-python==4.8.0.74
 ttkthemes==3.2.2
+flask
