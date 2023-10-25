@@ -65,7 +65,7 @@ class TKFunctions:
     @staticmethod
     def choose_file():
         file_types = [("Images", "*.jpg *.png"), ("Videos", "*.mp4 *.avi *.mkv")]
-        filename = filedialog.askopenfilename(filetypes=file_types)
+        filename = filedialog.askopenfilename(filetypes=file_types, initialdir='.')
 
         return filename
 
@@ -95,10 +95,13 @@ def run_stickerizing(file):
             result = f'\nUsing Image processing...\n'
             r = utils.stickerize_photo()
             result += r
-        else:
+        elif file.lower().endswith('.avi') or file.lower().endswith('.mp4'):
             result = '\nUsing Video processing...\n'
             r = utils.stickerize_video()
             result += r
+
+        else:
+            result = '\nNo file selected'
 
         return result
 
