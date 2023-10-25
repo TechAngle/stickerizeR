@@ -1,5 +1,16 @@
 # Stickerizer
 
+[![made-with-python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![python-version](https://img.shields.io/badge/Python-%3E%3D_3.10-green?style=for-the-badge)](https://www.python.org/)
+![license](https://img.shields.io/badge/Licence-GPL_2.0-blue?style=for-the-badge)
+[![Author-Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/TechAngle)
+[![support-me](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/techangle)
+![version](https://img.shields.io/badge/Version-1.0.0-brightgreen)
+[![mail.com](https://img.shields.io/badge/Mail.com-687EFF?style=for-the-badge&logo=mail.com&logoColor=white)](mailto:rect4ngle@programmer.net)
+![vscode](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+
+
 **Stickerizer** is a straightforward Python application designed for creating Telegram stickers from input files. It offers the capability to resize and convert both images and videos, optimizing them for use as Telegram stickers.
 
 ## Key Features
