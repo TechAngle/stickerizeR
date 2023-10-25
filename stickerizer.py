@@ -63,50 +63,6 @@ class TKFunctions:
 
         return filename
 
-"""class GUI:
-    def __init__(self):
-        self.version = config.version
-        self.ws = ThemedTk(theme=config.ttktheme)
-        self.ws.geometry("400x400")
-        self.ws.title(f"Stickerizer v{self.version}")
-        self.ws.resizable(False, False)
-
-        self.Labelframe = LabelFrame(self.ws, text='Stickerizer')
-        self.Labelframe.pack(expand=1, fill=BOTH, padx=10, pady=10)
-
-        self.file = None
-
-        select = Button(self.Labelframe, text="Choose a file to stickerize", command=self.choose_file)
-        select.pack(fill=BOTH, padx=10, pady=10)
-
-        self.stick_file = Label(self.Labelframe, text='No file selected', font=('Calibri', 14))
-        self.stick_file.pack(fill=BOTH, padx=10, pady=10)
-
-        start = Button(self.Labelframe, text="Start Stickerizing", command=self.run_stickerizing)
-        start.pack(fill=BOTH, padx=10, pady=10)
-
-        log = LabelFrame(self.ws, text='Output Log')
-        log.pack(fill=BOTH, expand=1, padx=10, pady=10)
-
-        self.textbox = Text(log, height=8, width=50, wrap=WORD, background='lightgray')
-        self.textbox.pack()
-
-    def choose_file(self):
-        f = TKFunctions.choose_file()
-        self.file = f
-
-        if self.file:
-            message = f'Selected file: {self.file}'
-            self.stick_file.config(text=message)
-            self.textbox.insert(INSERT, message + '\n')
-
-
-
-    def run(self):
-        self.ws.mainloop()
-        sys.exit(0)
-"""
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -142,10 +98,10 @@ def upload_file():
 
     # Откройте файл лога для записи (дописывания) и добавьте запись
     with open('log.txt', 'a') as log_file:
-        log_file.write(f'Selected file: {file_path}\n{processing_result}\n')
+        log_file.write(f'{processing_result}\n')
 
     # Верните результат обработки клиенту
-    return f'Selected file: {file_path}\n{processing_result}'
+    return f'{processing_result}'
 
 if __name__ == "__main__":
     app.run()

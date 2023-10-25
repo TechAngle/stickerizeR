@@ -105,15 +105,23 @@
                     document.querySelector('#file_path').value = file_path;
                     document.querySelector('#file_name strong').textContent = file_path;
                     document.querySelector('#file_name').style.display = 'block';
-                    document.querySelector('#output_log').style.display = 'block'; // Показывать Output Log
+                    document.querySelector('#output_log').style.display = 'block';
 
-                    // Очистите текущий лог перед добавлением новой записи
                     document.querySelector('#log-content').textContent = '';
-
-                    // Добавьте результат обработки в лог
-                    appendToLog(`Selected file: ${file_path}`);
-                    // Выполните обработку по нажатию кнопки "Upload File"
                 });
+        });
+
+        document.querySelector('form[action="/upload"]').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                appendToLog(result);
+            });
         });
 
         function appendToLog(logText) {
