@@ -1,14 +1,20 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.ttk import *
-from ttkthemes import ThemedTk
+
 from flask import Flask, render_template, request
+
 import config
 import image
 import video
-import os, sys
 
+import os, time, sys
+import webbrowser as web
+from multiprocessing import Process
+
+sys.argv = [f'{__file__}']
 app = Flask(__name__)
+
+filen = None
 
 class Utils:
     def __init__(self, file: str):
@@ -37,7 +43,7 @@ class Utils:
             os.mkdir(f'{self.script_folder}/{self.output_folder}')
 
         output_file = self.generate_unique_output_name(self.output_file)
-        save_file = f"{self.script_folder}/{self.output_folder}/{output_file}"
+        save_file = os.path.join(self.script_folder, self.output_folder, output_file)
 
         img_result = img.reduce_image_size(self.current_file)
 
@@ -69,39 +75,58 @@ def index():
 
 @app.route('/choose_file', methods=['POST'])
 def choose_file():
-    root = Tk()
-    root.withdraw()  # Скрыть окно tkinter
-    file_path = filedialog.askopenfilename()
-    root.destroy()  # Закрыть окно tkinter после выбора файла
+    global filen
+    file_path = TKFunctions().choose_file()
+    filen = file_path
     return file_path
+
+# Function restarting server if error occurred
+def restart():
+    os.execv(sys.executable, ['python'] + sys.argv)
 
 def run_stickerizing(file):
     if file is None:
         return "File wasn't selected"
 
     result = ""
-    if file.endswith('.png') or file.endswith('.jpg'):
-        result = f'\nUsing Image processing...\n'
-        r = Utils(file).stickerize_photo()
-        result += r
-    else:
-        result = '\nUsing Video processing...\n'
-        r = Utils(file).stickerize_video()
-        result += r
+    utils = Utils(filen)
+    try:
+        if file.lower().endswith('.png') or file.lower().endswith('.jpg'):
+            result = f'\nUsing Image processing...\n'
+            r = utils.stickerize_photo()
+            result += r
+        else:
+            result = '\nUsing Video processing...\n'
+            r = utils.stickerize_video()
+            result += r
 
-    return result
+        return result
+
+    except AttributeError as e:
+        print("Error occurred, restarting app...")
+        print("Error:", e)
+        restart()
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     file_path = request.form.get('file_path')
     processing_result = run_stickerizing(file_path)
 
-    # Откройте файл лога для записи (дописывания) и добавьте запись
     with open('log.txt', 'a') as log_file:
         log_file.write(f'{processing_result}\n')
 
-    # Верните результат обработки клиенту
     return f'{processing_result}'
 
+def run_flask_app():
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    app.run(host=config.host, port=config.port)
+
 if __name__ == "__main__":
-    app.run()
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    tk_functions = TKFunctions()
+
+    web_thr = Process(target=web.open, args=(f'http://{config.host}:{config.port}',))
+    web_thr.start()
+    time.sleep(1)
+    thr = Process(target=run_flask_app)
+    thr.start()
