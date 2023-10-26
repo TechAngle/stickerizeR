@@ -38,9 +38,9 @@ pip install -r requirements.txt
 
 1. Launch the Stickerizer application.
 
-2. Click the "Choose a file to stickerize" button to select an input file (JPEG, PNG, MP4, AVI, etc.).
+2. Click the "Choose file" button to select an input file (JPEG, PNG, MP4, AVI).
 
-3. Click the "Start Stickerizing" button to begin the stickerization process. The output will be displayed in the "Output Log" section.
+3. Click the "Upload File" button to begin the stickerization process. The output will be displayed in the "Output Log" section.
 
 4. The processed image or video will be saved in the "output" folder within the application directory.
 
